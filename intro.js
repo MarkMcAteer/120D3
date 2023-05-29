@@ -53,7 +53,8 @@ class Level1 extends Phaser.Scene {
         this.load.path = './asset/';
         this.load.image('grass', 'grass.png');
         this.load.image('man', 'man.png');
-        this.load.spritesheet('man', 'man.png', { frameWidth: 32, frameHeight: 48 });
+        this.load.image('tree1', 'tree1.png');
+        this.load.image('tree2', 'tree2.png');
 
     }
 
@@ -63,12 +64,51 @@ class Level1 extends Phaser.Scene {
         // https://github.com/photonstorm/phaser3-examples/
         // blob/master/public/src/physics/arcade/basic%20platform.js
 
-        this.platforms = this.physics.add.staticGroup();
-        this.platforms.create(300, 100, 'grass').setScale(2).refreshBody();
 
-        this.player = this.physics.add.sprite(400, 300, 'man');
+        this.platforms = this.physics.add.staticGroup();
+        this.platforms.create(320, 115, 'grass').setScale(2).refreshBody();
+
+        // Left Trees
+        this.imageObject = this.add.image(
+            100,//x
+            415,//y
+            'tree1',//imagename
+        )
+        this.imageObject.setScale(1) //resize
+        this.imageObject = this.add.image(
+            20,//x
+            420,//y
+            'tree2',//imagename
+        )
+        this.imageObject.setScale(1) //resize
+
+        // Right Trees
+        this.imageObject = this.add.image(
+            740,//x
+            415,//y
+            'tree1',//imagename
+        )
+        this.imageObject.setScale(1) //resize
+        this.imageObject = this.add.image(
+            680,//x
+            415,//y
+            'tree2',//imagename
+        )
+        this.imageObject.setScale(1) //resize
+        this.imageObject = this.add.image(
+            760,//x
+            420,//y
+            'tree2',//imagename
+        )
+        this.imageObject.setScale(1) //resize
+
+        // Player Movement Code
+
+        this.player = this.physics.add.sprite(0, 100, 'man').setScale(0.65);
         this.player.setBounce(0.2);
         this.player.setCollideWorldBounds(true);
+        this.player.onWorldBounds = true;
+
 
         this.cursors = this.input.keyboard.createCursorKeys();
 
