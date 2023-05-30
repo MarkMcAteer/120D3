@@ -119,7 +119,7 @@ class Level1 extends Phaser.Scene {
         let x = 0;
         
         this.time.addEvent({
-            delay: 2500,
+            delay: 1500,
             callback: ()=>{
                 this.laser = this.physics.add.sprite(randomNum, 20, 'laser').setScale(1);
                 this.laser.setBounce(0.2);
@@ -127,22 +127,17 @@ class Level1 extends Phaser.Scene {
                 this.laser.onWorldBounds = true;
                 randomNum = Math.floor(Math.random() * 650) + 50;
                 x++;
-                if ( x == 3 ) {
+                if ( x == 20 ) {
                     this.scene.start("Complete1");
                 }
+                
             },
             loop: true,
         })
 
-
-
+        this.physics.add.collider(this.player, this.platforms);
         this.cursors = this.input.keyboard.createCursorKeys();
 
-        this.physics.add.collider(this.player, this.platforms);
-
-        
-
-        //this.physics.add.overlap(this.player, this.stars, this.collectStar, null, this);
 
         
 
@@ -169,6 +164,12 @@ class Level1 extends Phaser.Scene {
         {
             this.player.setVelocityY(-330);
         }
+
+        //this.physics.add.collider(player, laser, endGame());
+    }
+
+    endGame() {
+        this.scene.start("intro")
     }
 }
 
@@ -291,7 +292,7 @@ class Level2 extends Phaser.Scene {
         let x = 0;
         
         this.time.addEvent({
-            delay: 1500,
+            delay: 1000,
             callback: ()=>{
                 this.laser = this.physics.add.sprite(randomNum, 20, 'laser').setScale(1);
                 this.laser.setBounce(0.2);
@@ -299,7 +300,7 @@ class Level2 extends Phaser.Scene {
                 this.laser.onWorldBounds = true;
                 randomNum = Math.floor(Math.random() * 650) + 50;
                 x++;
-                if ( x == 5 ) {
+                if ( x == 30 ) {
                     this.scene.start("Complete2");
                 }
             },
@@ -463,7 +464,7 @@ class Level3 extends Phaser.Scene {
         let x = 0;
         
         this.time.addEvent({
-            delay: 250,
+            delay: 300,
             callback: ()=>{
                 this.laser = this.physics.add.sprite(randomNum, 20, 'laser').setScale(1);
                 this.laser.setBounce(0.2);
@@ -471,7 +472,7 @@ class Level3 extends Phaser.Scene {
                 this.laser.onWorldBounds = true;
                 randomNum = Math.floor(Math.random() * 650) + 50;
                 x++;
-                if ( x == 20 ) {
+                if ( x == 50 ) {
                     this.scene.start("Complete3");
                 }
             },
