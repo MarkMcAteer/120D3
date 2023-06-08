@@ -49,6 +49,7 @@ class Level1 extends Phaser.Scene {
     platforms;
     cursors;
     laser;
+    tree;
 
     preload(){
         this.load.path = './asset/';
@@ -67,8 +68,7 @@ class Level1 extends Phaser.Scene {
         // blob/master/public/src/physics/arcade/basic%20platform.js
 
 
-
-
+        // Add the platform
         this.platforms = this.physics.add.staticGroup();
         this.platforms.create(320, 115, 'grass').setScale(2).refreshBody();
 
@@ -107,38 +107,44 @@ class Level1 extends Phaser.Scene {
         this.imageObject.setScale(1) //resize
 
         // Player Movement Code
-
-        this.player = this.physics.add.sprite(0, 100, 'man').setScale(0.65);
+        this.player = this.physics.add.image(0, 100, 'man').setScale(0.65);
         this.player.setBounce(0.2);
         this.player.setCollideWorldBounds(true);
         this.player.onWorldBounds = true;
 
         // Anvil Dropping Code
- 
         let randomNum = Math.floor(Math.random() * 650) + 50;
         let x = 0;
         
         this.time.addEvent({
-            delay: 1500,
+            delay: 100,
             callback: ()=>{
-                this.laser = this.physics.add.sprite(randomNum, 20, 'laser').setScale(1);
-                this.laser.setBounce(0.2);
+                this.laser = this.physics.add.image(randomNum, 20, 'laser').setScale(1);
                 this.laser.setCollideWorldBounds(false);
-                this.laser.onWorldBounds = true;
                 randomNum = Math.floor(Math.random() * 650) + 50;
+                this.physics.add.collider(this.player, this.laser);
                 x++;
-                if ( x == 20 ) {
+                if ( x == 200 ) {
                     this.scene.start("Complete1");
                 }
-                
             },
             loop: true,
         })
+/*
+        // TREE TEST ---------------------------------------------------------
+        this.tree = this.physics.add.staticGroup();
+        this.tree.create(400, 415, 'tree1').setScale(1);
+        this.physics.add.collider(this.player, this.tree);
+        this.physics.add.overlap(this.player, this.tree, this.endGame, null, this);
+*/
 
-        this.physics.add.collider(this.player, this.platforms);
-        this.cursors = this.input.keyboard.createCursorKeys();
+        // Cursor Code
+        this.cursors = this.input.keyboard.createCursorKeys(); 
 
-
+        // Collision Code 
+       // this.physics.add.collider(this.player, this.laser);
+        this.physics.add.collider(this.player, this.grass);
+        
         
 
     }
@@ -165,7 +171,6 @@ class Level1 extends Phaser.Scene {
             this.player.setVelocityY(-330);
         }
 
-        //this.physics.add.collider(player, laser, endGame());
     }
 
     endGame() {
